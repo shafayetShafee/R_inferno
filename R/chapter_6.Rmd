@@ -4,13 +4,14 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+options(scipen = 1, digits = 2)
 ```
 
 
 Doing Global Assignments from inside a function may have bad consequences and therefore, is recommended to avoid global assignments which can be done with `<<-`. 
 
-It is expected that R function would have no side effects. But a function that make global assignments violates this expectation and change a global variable value which is dangerous thing to happend. For example,
+It is expected that R function would have no side effects. But a function that make global assignments violates this expectation and change a global variable value which is dangerous thing to happened. For example,
 
 ```{r}
 #| label: globe_assignment
@@ -29,3 +30,107 @@ x
 y
 ```
 
+So the value of y got changed due to global binding inside from `fun` function.
+
+A particular case where global binding is useful is in memoization. This is when the results of computations are stored so that if the same computations is desired later then the value can be simply looked up from the stored than simply recomputing it.
+
+```{r}
+#| label: memoization
+
+fibonacci <- local({
+  memo <- c(1, 1, rep(NA, 100))
+  f <- function(x) {
+    if(x == 0) return(0)
+    if(x < 0) return(NA)
+    if(x > length(memo)) {
+      stop("'x' is too big for implementations")
+    }
+    if(!is.na(memo[x])) return(memo[x])
+    
+    ans <- f(x-2) + f(x-1)
+    memo[x] <<- ans
+    ans
+  }
+})
+
+
+fibonacci(6)
+fibonacci(12)
+```
+
+```{r}
+#| label: timing_up
+
+tictoc::tic()
+fibonacci(78) |> invisible()
+tictoc::toc()
+
+tictoc::tic()
+fibonacci(78) |> invisible()
+tictoc::toc()
+
+head(get('memo', envir = environment(fibonacci)))
+```
+Here we are hiding `memo` object inside the environment local to the function. So `memo` is not available outside the fibonacci.
+
+```{r}
+#| label: global-memo
+
+memo
+```
+Last thing to remember:
+> R always passes by value. It never passes by reference. But in R the passed expression in function as argument is only evaluated if it is needed inside the function (Becuase R evaluates object lazily)
+
+```{r}
+#| label: lazy_eval
+
+stop("this will stop whenever get called")
+
+test <- function(x) {
+  a <- 10
+  a
+}
+
+test(stop("this will stop whenever get called"))
+```
+`test` function runs instead of stopping and showing error message because the `stop()` was passed by x to test and test do not use x. So the call to `stop()` remains unevaluated.
+
+# Extra (Using {`memoise`})
+
+```{r}
+#| label: memoise
+
+library(memoise)
+
+fibo <- function(x) {
+  if(x == 0) return(0)
+  if(x == 1) {
+    return(1)
+  } else {
+    fibo(x-2) + fibo(x-1)  
+  }
+}
+
+fibo_memoized <- memoise(fibo)
+
+tictoc::tic()
+fibo(30) |> invisible()
+tictoc::toc()
+
+
+tictoc::tic()
+fibonacci(30) |> invisible()
+tictoc::toc()
+
+
+tictoc::tic()
+fibo_memoized(30) |> invisible()
+tictoc::toc()
+
+
+tictoc::tic()
+fibo_memoized(30) |> invisible()
+tictoc::toc()
+
+```
+So using `{memoise}` we can easily do memoization for a function.
