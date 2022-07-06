@@ -135,4 +135,4 @@ tictoc::toc()
 ```
 So using `{memoise}` we can easily do memoization for a function.
 
-# [Back to contents]("R_inferno#contents")
+# [Back to contents](https://github.com/shafayetShafee/R_inferno#contents)

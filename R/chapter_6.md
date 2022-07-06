@@ -75,7 +75,7 @@ fibonacci(78) |> invisible()
 tictoc::toc()
 ```
 
-    ## 0 sec elapsed
+    ## 0.01 sec elapsed
 
 ``` r
 tictoc::tic()
@@ -83,7 +83,7 @@ fibonacci(78) |> invisible()
 tictoc::toc()
 ```
 
-    ## 0 sec elapsed
+    ## 0.02 sec elapsed
 
 ``` r
 head(get('memo', envir = environment(fibonacci)))
@@ -151,7 +151,7 @@ fibo(30) |> invisible()
 tictoc::toc()
 ```
 
-    ## 3.64 sec elapsed
+    ## 3.58 sec elapsed
 
 ``` r
 tictoc::tic()
@@ -159,7 +159,7 @@ fibonacci(30) |> invisible()
 tictoc::toc()
 ```
 
-    ## 0.01 sec elapsed
+    ## 0 sec elapsed
 
 ``` r
 tictoc::tic()
@@ -167,7 +167,7 @@ fibo_memoized(30) |> invisible()
 tictoc::toc()
 ```
 
-    ## 3.46 sec elapsed
+    ## 2.87 sec elapsed
 
 ``` r
 tictoc::tic()
@@ -175,8 +175,8 @@ fibo_memoized(30) |> invisible()
 tictoc::toc()
 ```
 
-    ## 0.03 sec elapsed
+    ## 0.05 sec elapsed
 
 So using `{memoise}` we can easily do memoization for a function.
 
-# [Back to contents](%22R_inferno#contents%22)
+# [Back to contents](https://github.com/shafayetShafee/R_inferno#contents)
