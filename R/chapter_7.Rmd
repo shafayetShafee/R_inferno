@@ -9,6 +9,78 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## S3 methods
 
-S3 methods make the `class` attribute the driver of a OO system and it is optional that is, S3 method is only effective for an object if that object has class defined.
+S3 methods make the `class` attribute the driver of a OO system and S3 method is only effective for an object if that object has the `class` attribute defined.
 
-There are some function that are generic (e.g. print, plot, summary, lm etc.). Generic functions look for whether its first argument has a class argument and then look for a method of the generic function that matches up the name of the class of the first argument. If such a method exits, then that method function is used. But if no method is found or the argument does not have a class, then the default method of generic function is used.
+There are some function that are generic (e.g. print, plot, summary, lm etc.). Generic functions look for whether its first argument has a class attribute and then look for a method of that generic function that matches up the name of the class of the first argument. If such a method exits, then that method function is used. But if no method is found or the argument does not have a class attribute, then the default method of generic function is used.
+
+### Generic functions
+
+say, we want to see the source code of `median` function. 
+
+```{r med-source}
+median
+```
+
+Actually to get the default method for median is
+
+```{r med-default}
+getS3method('median', 'default')
+```
+ 
+### Methods
+
+- `methods` list the methods of a generic function.
+- Also given a class, `methods` lists all the generic function that have methods for this class.
+
+```{r methods}
+methods(median) # here input is a generic function
+ 
+methods(class = "factor") # here input is a class
+```
+
+ 
+## S4 methods
+
+### multiple dispatch
+
+One feature of S4 methods that is missing from S3 methods is the `multiple dispatch` 
+
+- `UseMethod` creates an S3 generic function
+- `StandardGeneric` creates S4 generic function
+
+### S4 structure
+
+- The pieces of S4 object is called slots and accessed with `@` sign
+- S4 methods are also driven by `class`. But in S3 the decision of what method will be used for that generic function call is made in real time when the function is called. But in S4 the decision is made when the code is loaded in R session.
+
+
+## Namespaces
+
+A namespace exports one or more objects so that they are visible but may have more objects that are private.
+
+To get an object from a particular namespace we can use `::` operator (Be warned that **the operator `::` only works if that object is exported from that namespace**.)
+
+```{r namespace, error=TRUE}
+stats::coef
+
+stats::coef.default
+```
+ 
+To get the unexported object from a namespace we can use `:::` operator or `getAnywhere` function
+
+```{r unexported-namespace}
+stats:::coef.default
+
+getAnywhere("coef.default")
+```
+
+There can be problem  if we want to modify a function that is in a namespace. Functions `assignInNamespace` and `unlockBinding` can be useful in this regard.
+ 
+# [Back to contents]("R_inferno#contents")
+ 
+ 
+ 
+ 
+ 
+ 
+ 
