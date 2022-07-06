@@ -76,7 +76,7 @@ getAnywhere("coef.default")
 
 There can be problem  if we want to modify a function that is in a namespace. Functions `assignInNamespace` and `unlockBinding` can be useful in this regard.
  
-# [Back to contents]("R_inferno#contents")
+# [Back to contents](README.md#contents)
  
  
  

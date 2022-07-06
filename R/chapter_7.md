@@ -25,7 +25,7 @@ median
 
     ## function (x, na.rm = FALSE, ...) 
     ## UseMethod("median")
-    ## <bytecode: 0x0000020371172178>
+    ## <bytecode: 0x00000168b54d4ad8>
     ## <environment: namespace:stats>
 
 Actually to get the default method for median is
@@ -52,7 +52,7 @@ getS3method('median', 'default')
     ##         sort(x, partial = half)[half]
     ##     else mean(sort(x, partial = half + 0L:1L)[half + 0L:1L])
     ## }
-    ## <bytecode: 0x00000203735a34d0>
+    ## <bytecode: 0x00000168b7902300>
     ## <environment: namespace:stats>
 
 ### Methods
@@ -114,7 +114,7 @@ stats::coef
 
     ## function (object, ...) 
     ## UseMethod("coef")
-    ## <bytecode: 0x0000020371f9ab20>
+    ## <bytecode: 0x00000168b62d8b20>
     ## <environment: namespace:stats>
 
 ``` r
@@ -137,7 +137,7 @@ stats:::coef.default
     ##         cf
     ##     else cf[!is.na(cf)]
     ## }
-    ## <bytecode: 0x0000020370fa88d0>
+    ## <bytecode: 0x00000168b52ee900>
     ## <environment: namespace:stats>
 
 ``` r
@@ -157,11 +157,11 @@ getAnywhere("coef.default")
     ##         cf
     ##     else cf[!is.na(cf)]
     ## }
-    ## <bytecode: 0x0000020370fa88d0>
+    ## <bytecode: 0x00000168b52ee900>
     ## <environment: namespace:stats>
 
 There can be problem if we want to modify a function that is in a
 namespace. Functions `assignInNamespace` and `unlockBinding` can be
 useful in this regard.
 
-# [Back to contents](%22R_inferno#contents%22)
+# [Back to contents](README.md#contents)
